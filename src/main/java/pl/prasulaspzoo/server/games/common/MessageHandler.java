@@ -1,7 +1,6 @@
-package pl.prasulaspzoo.server.games.poctest.handler;
+package pl.prasulaspzoo.server.games.common;
 
 import org.springframework.web.socket.WebSocketSession;
-import pl.prasulaspzoo.server.games.poctest.messages.GeneralMsg;
 
 public interface MessageHandler {
 

@@ -3,9 +3,9 @@ package pl.prasulaspzoo.server.manager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pl.prasulaspzoo.server.games.Game;
-import pl.prasulaspzoo.server.games.GameFactory;
-import pl.prasulaspzoo.server.games.GameType;
+import pl.prasulaspzoo.server.games.common.Game;
+import pl.prasulaspzoo.server.games.common.GameFactory;
+import pl.prasulaspzoo.server.games.common.GameType;
 import pl.prasulaspzoo.server.queue.QueueDispatcher;
 
 import java.util.HashMap;

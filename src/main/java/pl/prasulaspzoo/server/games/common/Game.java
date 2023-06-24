@@ -1,4 +1,4 @@
-package pl.prasulaspzoo.server.games;
+package pl.prasulaspzoo.server.games.common;
 
 import pl.prasulaspzoo.server.manager.ServerInfo;
 import pl.prasulaspzoo.server.queue.QueueDispatcher;

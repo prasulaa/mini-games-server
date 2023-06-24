@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import pl.prasulaspzoo.server.games.Game;
+import pl.prasulaspzoo.server.games.common.Game;
 import pl.prasulaspzoo.server.games.poctest.handler.MessageHandlerFactory;
 import pl.prasulaspzoo.server.games.poctest.messages.PlayerDTO;
 import pl.prasulaspzoo.server.games.poctest.messages.WorldInfo;
 import pl.prasulaspzoo.server.manager.ServerInfo;
-import pl.prasulaspzoo.server.games.poctest.messages.GeneralMsg;
+import pl.prasulaspzoo.server.games.common.GeneralMsg;
 import pl.prasulaspzoo.server.queue.QueueDispatcher;
 import pl.prasulaspzoo.server.queue.QueueMsg;
 

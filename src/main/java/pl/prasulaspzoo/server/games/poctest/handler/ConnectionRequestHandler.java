@@ -14,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import pl.prasulaspzoo.server.games.common.MessageHandler;
 import pl.prasulaspzoo.server.games.poctest.PoCTestGameInfo;
 import pl.prasulaspzoo.server.games.poctest.messages.ConnectionRequest;
-import pl.prasulaspzoo.server.games.poctest.messages.GeneralMsg;
+import pl.prasulaspzoo.server.games.common.GeneralMsg;
 import pl.prasulaspzoo.server.games.poctest.messages.PlayerDTO;
 import pl.prasulaspzoo.server.games.poctest.model.Player;
 import pl.prasulaspzoo.server.manager.ServerInfo;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Slf4j

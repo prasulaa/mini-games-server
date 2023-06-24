@@ -2,6 +2,7 @@ package pl.prasulaspzoo.server.games.poctest.messages;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import pl.prasulaspzoo.server.games.common.GeneralMsg;
 
 import java.util.List;
 
