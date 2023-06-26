@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.slf4j.Slf4j;
 import pl.prasulaspzoo.server.games.common.Game;
 import pl.prasulaspzoo.server.games.common.GeneralMsg;
+import pl.prasulaspzoo.server.games.common.HandlerNotRegisteredException;
 import pl.prasulaspzoo.server.games.cyberwarriors.handler.MessageHandlerRepository;
 import pl.prasulaspzoo.server.manager.ServerInfo;
 import pl.prasulaspzoo.server.queue.QueueDispatcher;
@@ -48,6 +49,8 @@ public class CyberWarriorsGame extends Game {
                 handlerRepository.messageHandler(msg).handle(msg, queueMsg.getSession());
             } catch (JsonProcessingException e) {
                 log.error(serverInfo.getServerId() + " error occurred", e);
+            } catch (HandlerNotRegisteredException e) {
+                log.error(serverInfo.getServerId() + " - " + queueMsg.getSession().getId(), e);
             }
 
         }

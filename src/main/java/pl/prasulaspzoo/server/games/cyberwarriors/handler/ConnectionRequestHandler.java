@@ -7,6 +7,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import pl.prasulaspzoo.server.games.common.GeneralMsg;
 import pl.prasulaspzoo.server.games.common.MessageHandler;
+import pl.prasulaspzoo.server.games.common.message.ConnectionRequest;
 import pl.prasulaspzoo.server.games.cyberwarriors.CyberWarriorsGameInfo;
 import pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO;
 import pl.prasulaspzoo.server.manager.ServerInfo;
@@ -20,9 +21,12 @@ public class ConnectionRequestHandler implements MessageHandler {
     private final ServerInfo serverInfo;
     private final CyberWarriorsGameInfo gameInfo;
 
-
     @Override
     public void handle(GeneralMsg generalMsg, WebSocketSession session) {
+        ConnectionRequest msg = (ConnectionRequest) generalMsg;
+        WebSocketSession requestSession = serverInfo.getConnectionRequests().remove(session.getId());
+        serverInfo.getConnections().put(msg.getUid(), requestSession);
+
         // TODO
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(session.getId());
@@ -32,6 +36,7 @@ public class ConnectionRequestHandler implements MessageHandler {
         try {
             String playerInfoMsg = objectMapper.writeValueAsString(playerDTO);
             session.sendMessage(new TextMessage(playerInfoMsg));
+
             return;
         } catch (IOException e) {
             log.error("Exception occurred, ws session=" + session, e);
