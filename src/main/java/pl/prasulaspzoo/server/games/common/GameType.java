@@ -2,6 +2,6 @@ package pl.prasulaspzoo.server.games.common;
 
 public enum GameType {
 
-    POC_TEST
+    CYBER_WARRIORS, POC_TEST
 
 }

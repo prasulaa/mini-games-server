@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.prasulaspzoo.server.games.common.message.ConnectionRequest;
+import pl.prasulaspzoo.server.games.common.message.Disconnect;
+import pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -14,12 +17,17 @@ import lombok.Setter;
         visible = true
 )
 @JsonSubTypes({
+        // COMMON
+        @JsonSubTypes.Type(value = ConnectionRequest.class, name = ConnectionRequest.NAME),
+        @JsonSubTypes.Type(value = Disconnect.class, name = Disconnect.NAME),
+
         // POC_TEST
-        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.ConnectionRequest.class, name = pl.prasulaspzoo.server.games.poctest.messages.ConnectionRequest.NAME),
-        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.Disconnect.class, name = pl.prasulaspzoo.server.games.poctest.messages.Disconnect.NAME),
         @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.WorldInfo.class, name = pl.prasulaspzoo.server.games.poctest.messages.WorldInfo.NAME),
         @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.PlayerDTO.class, name = pl.prasulaspzoo.server.games.poctest.messages.PlayerDTO.NAME),
-        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.Move.class, name = pl.prasulaspzoo.server.games.poctest.messages.Move.NAME)
+        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.poctest.messages.Move.class, name = pl.prasulaspzoo.server.games.poctest.messages.Move.NAME),
+
+        // CYBER WARRIORS 2115
+        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO.class, name = PlayerDTO.NAME)
 })
 @NoArgsConstructor
 @Setter
