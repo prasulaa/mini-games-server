@@ -1,5 +1,7 @@
 package pl.prasulaspzoo.server.games.cyberwarriors;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -18,6 +20,8 @@ import java.util.Queue;
 @Slf4j
 public class CyberWarriorsGame extends Game {
 
+    private static final int WIDTH = 20;
+    private static final int HEIGHT = 15;
     private final ObjectMapper mapper;
     private final ObjectReader msgReader;
     private MessageHandlerRepository handlerRepository;
@@ -31,7 +35,9 @@ public class CyberWarriorsGame extends Game {
 
     @Override
     protected void init() {
-        gameInfo = new CyberWarriorsGameInfo();
+        World world = new World(new Vector2(0, -20), true);
+
+        gameInfo = new CyberWarriorsGameInfo(world, createBackgroundFixture(world));
         handlerRepository = new MessageHandlerRepository(serverInfo, gameInfo);
 
         log.info(serverInfo.getServerId() + " - Cyber Warriors 2115 game initialized");
@@ -54,5 +60,25 @@ public class CyberWarriorsGame extends Game {
             }
 
         }
+    }
+
+    private Fixture createBackgroundFixture(World world) {
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.position.set(WIDTH/2f, HEIGHT/2f);
+        groundBodyDef.type = BodyDef.BodyType.StaticBody;
+
+        Body groundBody = world.createBody(groundBodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(WIDTH/2f, HEIGHT/2f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0.0f;
+        fixtureDef.isSensor = true;
+
+        Fixture fixture = groundBody.createFixture(fixtureDef);
+        shape.dispose();
+
+        return fixture;
     }
 }
