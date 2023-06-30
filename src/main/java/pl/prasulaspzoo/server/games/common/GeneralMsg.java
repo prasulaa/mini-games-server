@@ -27,7 +27,8 @@ import pl.prasulaspzoo.server.games.common.message.Disconnect;
 
         // CYBER WARRIORS 2115
         @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO.NAME),
-        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.NAME)
+        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.NAME),
+        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.WorldInfoDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.WorldInfoDTO.NAME)
 })
 @NoArgsConstructor
 @Setter

@@ -1,5 +1,6 @@
 package pl.prasulaspzoo.server.games.cyberwarriors.model;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.FrictionJoint;
@@ -17,6 +18,10 @@ public class Player implements Disposable {
     public void dispose() {
         world.destroyJoint(frictionJoint);
         world.destroyBody(fixture.getBody());
+    }
+
+    public Vector2 getPosition() {
+        return fixture.getBody().getPosition();
     }
 
 }
