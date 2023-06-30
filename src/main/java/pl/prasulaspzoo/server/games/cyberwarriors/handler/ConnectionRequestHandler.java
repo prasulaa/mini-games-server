@@ -56,7 +56,10 @@ public class ConnectionRequestHandler implements MessageHandler {
         jointDef.initialize(body, gameInfo.getBackgroundFixture().getBody(), new Vector2(0, 0));
         FrictionJoint frictionJoint = (FrictionJoint) gameInfo.getWorld().createJoint(jointDef);
 
-        gameInfo.getPlayers().put(session.getId(), new Player(body.createFixture(fixtureDef), frictionJoint));
+        gameInfo.getPlayers().put(
+                session.getId(),
+                new Player(body.createFixture(fixtureDef), frictionJoint, gameInfo.getWorld())
+        );
 
         shape.dispose();
 
