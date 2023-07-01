@@ -8,8 +8,8 @@ import pl.prasulaspzoo.server.games.common.GeneralMsg;
 @NoArgsConstructor
 @Setter
 @Getter
-public class MoveDTO extends GeneralMsg {
-    public static final String NAME = "cw-move";
+public class PlayerStateDTO extends GeneralMsg {
+    public static final String NAME = "cw-playerstate";
 
     private float x;
     private float y;

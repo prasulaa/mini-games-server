@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.prasulaspzoo.server.games.common.message.ConnectionRequest;
 import pl.prasulaspzoo.server.games.common.message.Disconnect;
+import pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerStateDTO;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -27,7 +28,7 @@ import pl.prasulaspzoo.server.games.common.message.Disconnect;
 
         // CYBER WARRIORS 2115
         @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerDTO.NAME),
-        @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.MoveDTO.NAME),
+        @JsonSubTypes.Type(value = PlayerStateDTO.class, name = PlayerStateDTO.NAME),
         @JsonSubTypes.Type(value = pl.prasulaspzoo.server.games.cyberwarriors.dto.WorldInfoDTO.class, name = pl.prasulaspzoo.server.games.cyberwarriors.dto.WorldInfoDTO.NAME)
 })
 @NoArgsConstructor

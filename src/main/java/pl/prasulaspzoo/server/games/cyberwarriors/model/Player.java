@@ -6,10 +6,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.FrictionJoint;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public class Player implements Disposable {
 
+    @Getter
     private final Fixture fixture;
     private final FrictionJoint frictionJoint;
     private final World world;
