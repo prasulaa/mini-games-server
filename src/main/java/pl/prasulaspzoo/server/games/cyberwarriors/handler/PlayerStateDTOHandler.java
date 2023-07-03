@@ -2,6 +2,7 @@ package pl.prasulaspzoo.server.games.cyberwarriors.handler;
 
 import com.badlogic.gdx.math.Vector2;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 import pl.prasulaspzoo.server.games.common.GeneralMsg;
 import pl.prasulaspzoo.server.games.common.MessageHandler;
@@ -9,7 +10,10 @@ import pl.prasulaspzoo.server.games.cyberwarriors.CyberWarriorsGameInfo;
 import pl.prasulaspzoo.server.games.cyberwarriors.dto.PlayerStateDTO;
 import pl.prasulaspzoo.server.games.cyberwarriors.model.Player;
 
+import java.io.IOException;
+
 @AllArgsConstructor
+@Slf4j
 public class PlayerStateDTOHandler implements MessageHandler {
     private static final float IMPULSE = 20f;
 
@@ -21,13 +25,23 @@ public class PlayerStateDTOHandler implements MessageHandler {
 
         Player player = gameInfo.getPlayers().get(session.getId());
 
-        Vector2 playerPos = player.getPosition();
-        float movX = (msg.getX() - playerPos.x) * IMPULSE;
-        float movY = (msg.getY() - playerPos.y) * IMPULSE;
+        if (player != null) {
+            Vector2 playerPos = player.getPosition();
+            float movX = (msg.getX() - playerPos.x) * IMPULSE;
+            float movY = (msg.getY() - playerPos.y) * IMPULSE;
 
-        // TODO player on the server moves really slow
+            player.getFixture().getBody().setLinearVelocity(movX, movY);
+        } else {
+            closeSession(session);
+        }
+    }
 
-        player.getFixture().getBody().setLinearVelocity(movX, movY);
+    public void closeSession(WebSocketSession session) {
+        try {
+            session.close();
+        } catch (IOException e) {
+            log.error("abc", e);
+        }
     }
 
 }

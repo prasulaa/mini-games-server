@@ -61,7 +61,7 @@ public class MessageHandler extends TextWebSocketHandler {
 
         gameManager.getGame(serverId).getServerInfo().disconnect(session);
 
-        log.info("Connection closed with " + session.getId() + " - " + status.getReason());
+        log.info("Connection closed with " + session.getId() + " - " + status);
     }
 
 }

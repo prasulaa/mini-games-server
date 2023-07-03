@@ -20,17 +20,11 @@ import pl.prasulaspzoo.server.queue.QueueMsg;
 import java.io.IOException;
 import java.util.Queue;
 
-// TODO
-// move handling
-// sending players info to each player
-// graphics
-// animation
-
 @Slf4j
 public class CyberWarriorsGame extends Game {
 
-    private static final int WIDTH = 20;
-    private static final int HEIGHT = 15;
+    private static final int WIDTH = 16;
+    private static final int HEIGHT = 9;
     private final ObjectMapper mapper;
     private final ObjectReader msgReader;
     private MessageHandlerRepository handlerRepository;
@@ -55,40 +49,43 @@ public class CyberWarriorsGame extends Game {
 
     @Override
     public void run() {
-        Queue<QueueMsg> queue = serverInfo.getQueue();
-
-        while (!queue.isEmpty()) {
-            QueueMsg queueMsg = queue.poll();
-
-            try {
-                GeneralMsg msg = msgReader.readValue(queueMsg.getMsg());
-                handlerRepository.messageHandler(msg).handle(msg, queueMsg.getSession());
-            } catch (JsonProcessingException e) {
-                log.error(serverInfo.getServerId() + " error occurred", e);
-            } catch (HandlerNotRegisteredException e) {
-                log.error(serverInfo.getServerId() + " - " + queueMsg.getSession().getId(), e);
-            }
-        }
-
-        gameInfo.getWorld().step(deltaTime(), 6, 2);
-
-        WorldInfoDTO worldInfo = new WorldInfoDTO(
-                gameInfo.getPlayers().entrySet().stream()
-                        .map(p -> new PlayerDTO(p.getKey(), p.getValue().getPosition()))
-                        .toList()
-        );
-
         try {
+            Queue<QueueMsg> queue = serverInfo.getQueue();
+
+            while (!queue.isEmpty()) {
+                QueueMsg queueMsg = queue.poll();
+
+                try {
+                    GeneralMsg msg = msgReader.readValue(queueMsg.getMsg());
+                    handlerRepository.messageHandler(msg).handle(msg, queueMsg.getSession());
+                } catch (JsonProcessingException e) {
+                    log.error(serverInfo.getServerId() + " error occurred", e);
+                } catch (HandlerNotRegisteredException e) {
+                    log.error(serverInfo.getServerId() + " - " + queueMsg.getSession().getId(), e);
+                }
+            }
+
+            gameInfo.getWorld().step(deltaTime(), 6, 2);
+
+            WorldInfoDTO worldInfo = new WorldInfoDTO(
+                    gameInfo.getPlayers().entrySet().stream()
+                            .map(p -> new PlayerDTO(p.getKey(), p.getValue().getPosition()))
+                            .toList()
+            );
+
+
             String json = mapper.writeValueAsString(worldInfo);
             serverInfo.getConnections().values().forEach(session -> {
                 try {
                     session.sendMessage(new TextMessage(json));
-                } catch (IOException e) {
+                } catch (IOException | IllegalStateException e) {
                     log.error("Error occurred during sending to player", e);
                 }
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            log.error("Exception occurred during mapping POJO to JSON", e);
+        } catch (Exception e) {
+            log.error("Unexpected error occurred", e);
         }
     }
 
@@ -101,13 +98,13 @@ public class CyberWarriorsGame extends Game {
 
     private Fixture createBackgroundFixture(World world) {
         BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(WIDTH/2f, HEIGHT/2f);
+        groundBodyDef.position.set(WIDTH / 2f, HEIGHT / 2f);
         groundBodyDef.type = BodyDef.BodyType.StaticBody;
 
         Body groundBody = world.createBody(groundBodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WIDTH/2f, HEIGHT/2f);
+        shape.setAsBox(WIDTH / 2f, HEIGHT / 2f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.0f;
