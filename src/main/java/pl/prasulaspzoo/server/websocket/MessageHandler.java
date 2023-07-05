@@ -37,7 +37,7 @@ public class MessageHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        log.info("Received from " + session.getId() + ": " + message.getPayload());
+//        log.info("Received from " + session.getId() + ": " + message.getPayload());
 
         String serverId = (String) session.getAttributes().get("serverId");
         Queue<QueueMsg> queue = queueDispatcher.getQueue(serverId);

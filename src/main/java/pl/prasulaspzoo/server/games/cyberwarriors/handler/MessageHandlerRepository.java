@@ -19,7 +19,7 @@ public class MessageHandlerRepository {
     public MessageHandlerRepository(ServerInfo serverInfo, CyberWarriorsGameInfo gameInfo) {
         this.handlers = new HashMap<>();
         handlers.put(ConnectionRequest.NAME, new ConnectionRequestHandler(serverInfo, gameInfo));
-        handlers.put(PlayerStateDTO.NAME, new PlayerStateDTOHandler(gameInfo));
+        handlers.put(PlayerStateDTO.NAME, new PlayerStateDTOHandler(serverInfo, gameInfo));
         handlers.put(Disconnect.NAME, new DisconnectHandler(serverInfo, gameInfo));
     }
 

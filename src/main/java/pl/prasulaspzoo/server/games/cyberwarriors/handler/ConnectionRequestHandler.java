@@ -1,10 +1,7 @@
 package pl.prasulaspzoo.server.games.cyberwarriors.handler;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.FrictionJoint;
 import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
 import lombok.AllArgsConstructor;
@@ -37,32 +34,20 @@ public class ConnectionRequestHandler implements MessageHandler {
         WebSocketSession requestSession = serverInfo.getConnectionRequests().remove(session.getId());
         serverInfo.getConnections().put(msg.getUid(), requestSession);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(INIT_X, INIT_Y);
-
-        Body body = gameInfo.getWorld().createBody(bodyDef);
+        Body body = createBody();
         body.setFixedRotation(true);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 1f);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        FrictionJointDef jointDef = new FrictionJointDef();
-        jointDef.maxForce = 1f;
-        jointDef.maxTorque = 1f;
-        jointDef.initialize(body, gameInfo.getBackgroundFixture().getBody(), new Vector2(0, 0));
-        FrictionJoint frictionJoint = (FrictionJoint) gameInfo.getWorld().createJoint(jointDef);
+        Fixture fixture = createFixture(body);
+        FrictionJoint frictionJoint = createFrictionJoint(body);
 
         gameInfo.getPlayers().put(
                 session.getId(),
-                new Player(body.createFixture(fixtureDef), frictionJoint, gameInfo.getWorld())
+                new Player(fixture, frictionJoint, gameInfo.getWorld())
         );
 
-        shape.dispose();
+        sendPlayerInfo(session);
+    }
 
+    private void sendPlayerInfo(WebSocketSession session) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(session.getId());
         playerDTO.setX(INIT_X);
@@ -82,6 +67,35 @@ public class ConnectionRequestHandler implements MessageHandler {
         } catch (IOException ex) {
             log.error("Exception occurred during connection closing, ws session=" + session, ex);
         }
+    }
+
+    private Body createBody() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(INIT_X, INIT_Y);
+
+        return gameInfo.getWorld().createBody(bodyDef);
+    }
+
+    private Fixture createFixture(Body body) {
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(0.5f, 0.5f);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+
+        Fixture fixture = body.createFixture(fixtureDef);
+        shape.dispose();
+        return fixture;
+    }
+
+    private FrictionJoint createFrictionJoint(Body body) {
+        FrictionJointDef jointDef = new FrictionJointDef();
+        jointDef.maxForce = 1f;
+        jointDef.maxTorque = 1f;
+        jointDef.initialize(body, gameInfo.getBackgroundFixture().getBody(), new Vector2(0, 0));
+        return (FrictionJoint) gameInfo.getWorld().createJoint(jointDef);
     }
 
 }

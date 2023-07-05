@@ -44,6 +44,10 @@ public class CyberWarriorsGame extends Game {
         gameInfo = new CyberWarriorsGameInfo(world, createBackgroundFixture(world));
         handlerRepository = new MessageHandlerRepository(serverInfo, gameInfo);
 
+        createPlatform(WIDTH/2f, -0.5f, WIDTH/2f, 0.5f, world);
+        createPlatform(5f, 2f, 1.5f, 0.5f, world);
+        createPlatform(12f, 4f, 2f, 0.5f, world);
+
         log.info(serverInfo.getServerId() + " - Cyber Warriors 2115 game initialized");
     }
 
@@ -115,4 +119,22 @@ public class CyberWarriorsGame extends Game {
 
         return fixture;
     }
+
+    private Fixture createPlatform(float x, float y, float width, float height, World world) {
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.position.set(x, y);
+        groundBodyDef.type = BodyDef.BodyType.StaticBody;
+
+        Body groundBody = world.createBody(groundBodyDef);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width, height);
+
+        Fixture fixture = groundBody.createFixture(shape, 2f);
+        shape.dispose();
+
+        return fixture;
+    }
+
+
 }
