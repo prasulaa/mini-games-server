@@ -23,8 +23,8 @@ import java.util.Queue;
 @Slf4j
 public class CyberWarriorsGame extends Game {
 
-    private static final int WIDTH = 16;
-    private static final int HEIGHT = 9;
+    private static final float WIDTH = 16f;
+    private static final float HEIGHT = 9f;
     private final ObjectMapper mapper;
     private final ObjectReader msgReader;
     private MessageHandlerRepository handlerRepository;
@@ -44,9 +44,16 @@ public class CyberWarriorsGame extends Game {
         gameInfo = new CyberWarriorsGameInfo(world, createBackgroundFixture(world));
         handlerRepository = new MessageHandlerRepository(serverInfo, gameInfo);
 
-        createPlatform(WIDTH/2f, -0.5f, WIDTH/2f, 0.5f, world);
-        createPlatform(5f, 2f, 1.5f, 0.5f, world);
-        createPlatform(12f, 4f, 2f, 0.5f, world);
+        createPlatform(WIDTH/2, -0.5f, WIDTH/2, 0.5f, world);
+        createPlatform(-0.5f, HEIGHT/2, 0.5f, HEIGHT/2, world);
+        createPlatform(WIDTH + 0.5f, HEIGHT/2, 0.5f, HEIGHT/2, world);
+
+        createPlatform(3.5f, 2.5f, 1.5f, 0.5f, world);
+        createPlatform(8f, 2.5f, 1f, 0.5f, world);
+        createPlatform(12.5f, 2.5f, 1.5f, 0.5f, world);
+        createPlatform(3.5f, 6.5f, 0.5f, 0.5f, world);
+        createPlatform(8f, 6.5f, 2f, 0.5f, world);
+        createPlatform(12.5f, 6.5f, 0.5f, 0.5f, world);
 
         log.info(serverInfo.getServerId() + " - Cyber Warriors 2115 game initialized");
     }
@@ -111,7 +118,9 @@ public class CyberWarriorsGame extends Game {
         shape.setAsBox(WIDTH / 2f, HEIGHT / 2f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.0f;
+        fixtureDef.density = 2f;
+        fixtureDef.friction = 0.07f;
+        fixtureDef.restitution = 0f;
         fixtureDef.isSensor = true;
 
         Fixture fixture = groundBody.createFixture(fixtureDef);
@@ -130,7 +139,13 @@ public class CyberWarriorsGame extends Game {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width, height);
 
-        Fixture fixture = groundBody.createFixture(shape, 2f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 2f;
+        fixtureDef.friction = 0.07f;
+        fixtureDef.restitution = 0f;
+
+        Fixture fixture = groundBody.createFixture(fixtureDef);
         shape.dispose();
 
         return fixture;

@@ -84,6 +84,8 @@ public class ConnectionRequestHandler implements MessageHandler {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
+        fixtureDef.friction = 0.07f;
+        fixtureDef.restitution = 0f;
 
         Fixture fixture = body.createFixture(fixtureDef);
         shape.dispose();
@@ -92,8 +94,8 @@ public class ConnectionRequestHandler implements MessageHandler {
 
     private FrictionJoint createFrictionJoint(Body body) {
         FrictionJointDef jointDef = new FrictionJointDef();
-        jointDef.maxForce = 1f;
-        jointDef.maxTorque = 1f;
+        jointDef.maxForce = 10f;
+        jointDef.maxTorque = 10f;
         jointDef.initialize(body, gameInfo.getBackgroundFixture().getBody(), new Vector2(0, 0));
         return (FrictionJoint) gameInfo.getWorld().createJoint(jointDef);
     }
