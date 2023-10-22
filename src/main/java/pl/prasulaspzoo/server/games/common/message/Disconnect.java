@@ -1,4 +1,4 @@
-package pl.prasulaspzoo.server.games.poctest.messages;
+package pl.prasulaspzoo.server.games.common.message;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import pl.prasulaspzoo.server.games.common.GeneralMsg;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ConnectionRequest extends GeneralMsg {
-    public static final String NAME = "connectionRequest";
+public class Disconnect extends GeneralMsg {
+    public static final String NAME = "disconnect";
 
     private String uid;
 

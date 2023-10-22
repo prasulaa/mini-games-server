@@ -8,7 +8,7 @@ import pl.prasulaspzoo.server.games.common.MessageHandler;
 import pl.prasulaspzoo.server.games.poctest.model.Player;
 import pl.prasulaspzoo.server.manager.ServerInfo;
 import pl.prasulaspzoo.server.games.poctest.PoCTestGameInfo;
-import pl.prasulaspzoo.server.games.poctest.messages.Disconnect;
+import pl.prasulaspzoo.server.games.common.message.Disconnect;
 import pl.prasulaspzoo.server.games.common.GeneralMsg;
 
 import java.io.IOException;
